@@ -250,3 +250,5 @@ function cargarEdicion(cita) {
 
   editando = true;
 }
+
+//Instance 
