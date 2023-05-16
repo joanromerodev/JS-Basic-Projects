@@ -13,6 +13,8 @@ window.onload = () => {
     e.preventDefault();
     const terminoBusqueda = document.querySelector("#termino").value;
     if (terminoBusqueda === "") {
+      limpiarHTML(resultado);
+      limpiarHTML(paginacionDiv);
       mostrarMensaje("Agrega un termino de busqueda");
       return;
     }
@@ -47,24 +49,26 @@ window.onload = () => {
     }
   }
 
-  function buscarImagenes() {
+  async function buscarImagenes() {
     const termino = document.querySelector("#termino").value;
     const key = "25380525-81427da647f565615ffa23229";
     const url = `https://pixabay.com/api/?key=${key}&q=${termino}&per_page=${registrosPorPagina}&page=${paginaActual}`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.totalHits === 0) {
-          limpiarHTML(resultado);
-          limpiarHTML(paginacionDiv);
-          mostrarMensaje(
-            "¡Lo sentimos! No encontramos imagenes para tu criterio de busqueda. Por favor intenta con otro criterio"
-          );
-          return;
-        }
-        totalPaginas = calcularPaginas(data.totalHits);
-        mostrarImagenes(data.hits);
-      });
+    try {
+      const respuesta = await fetch(url);
+      const data = await respuesta.json();
+      if (data.totalHits === 0) {
+        limpiarHTML(resultado);
+        limpiarHTML(paginacionDiv);
+        mostrarMensaje(
+          "¡Lo sentimos! No encontramos imagenes para tu criterio de busqueda. Por favor intenta con otro criterio"
+        );
+        return;
+      }
+      totalPaginas = calcularPaginas(data.totalHits);
+      mostrarImagenes(data.hits);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function* crearPaginador(total) {
