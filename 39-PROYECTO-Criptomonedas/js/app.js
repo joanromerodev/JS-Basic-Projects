@@ -20,13 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
   monedaSelect.addEventListener("change", leerValor);
 });
 
-function consultarCriptos() {
+async function consultarCriptos() {
   const url = `https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD`;
 
-  fetch(url)
-    .then((res) => res.json())
-    .then((data) => obtenerCriptos(data.Data))
-    .then((criptomonedas) => selectCriptos(criptomonedas));
+  try {
+    const respuesta = await fetch(url);
+    const data = await respuesta.json();
+    const criptos = await obtenerCriptos(data.Data);
+    selectCriptos(criptos);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function selectCriptos(criptomonedas) {
@@ -53,13 +57,18 @@ function submitFormulario(e) {
   consultarAPI();
 }
 
-function consultarAPI() {
+async function consultarAPI() {
   const { moneda, cripto } = objBusqueda;
   const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${cripto}&tsyms=${moneda}`;
   mostrarSpinner();
-  fetch(url)
-    .then((res) => res.json())
-    .then((data) => mostrarCotizacionHTML(data.DISPLAY[cripto][moneda]));
+
+  try {
+    const respuesta = await fetch(url);
+    const data = await respuesta.json();
+    mostrarCotizacionHTML(data.DISPLAY[cripto][moneda]);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function mostrarCotizacionHTML(cotizacion) {
