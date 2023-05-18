@@ -1,6 +1,4 @@
-# IMPORTANT
-
-# You'll need this to make this project work
+# IMPORTANT: You'll need this to make this project work
 
 # Install NodeJS
 
