@@ -11,7 +11,8 @@ You can easily do it by clicking this link: https://nodejs.org/en
 # Install JSON-server
 
 Once you have already installed NodeJS. You have to open your powershell or CMD
-and then run the following command: npm install -g json-server
+and then run the following command:
+<code>npm install -g json-server</code>
 
 # Final step
 
