@@ -50,7 +50,7 @@ function mostrarError(mensaje) {
 
     setTimeout(() => {
       alerta.remove();
-    }, 2000);
+    }, 1500);
   }
 }
 
